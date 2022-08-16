@@ -25,7 +25,7 @@ const SlateItems = (props) => {
   };
 
   return (
-    <div style={{marginLeft:"10px"}}>
+    <div style={{marginLeft:"10px", cursor:"grab"}} draggable={true}>
       <div style={{padding:"2px", color:"white"}}>{props.title}</div>
       <input
         type="text"

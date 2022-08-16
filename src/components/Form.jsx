@@ -1,32 +1,46 @@
 import React from "react";
 import { useState } from "react";
-
+import { useForm } from "react-hook-form";
+import "./styles.css";
 export default function Form({ title, handleClick }) {
-  const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const {
+    register,
+    handleSubmit,
+
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (data) => handleClick(data.email, data.password);
+
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-       
-      }}
-    >
-      <div style={{display:"flex", flexDirection:"column", gap:"15px", width:"100%", alignItems:"center"}}>
+    <div className="container">
+      <form onSubmit={handleSubmit(onSubmit)}>
         <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          className="loginput"
           placeholder="email"
+          defaultValue=""
+          {...register("email", { required: true })}
         />
+        {errors.email && (
+          <div style={{ color: "red", marginBottom: "10px" }}>
+            ⚠ This field is required
+          </div>
+        )}
         <input
           type="password"
-          value={pass}
-          onChange={(e) => setPass(e.target.value)}
+          className="loginput"
           placeholder="password"
+          {...register("password", { required: true })}
         />
-        <button onClick={() => handleClick(email, pass)}>{title}</button>
-      </div>
+
+        {errors.password && (
+          <div style={{ color: "red" }}>⚠ This field is required</div>
+        )}
+
+        <button type="submit" className="subinput">
+          {title}
+        </button>
+      </form>
     </div>
   );
 }
